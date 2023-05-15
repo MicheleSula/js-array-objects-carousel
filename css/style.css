@@ -1,0 +1,94 @@
+/* General rules */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main {
+    height: 100vh;
+    width: 100vw;
+    background-color: lightcyan;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+/* Content wrapper */
+#content-wrapper {
+    height: 80%;
+    width: 70%;
+    position: relative;
+}
+
+/* Container of images and buttons */
+.container {
+    height: 70%;
+    width: 100%;
+    position: relative;
+}
+
+#prev {
+    position: absolute;
+    top: 50%;
+    height: 20px;
+    left: 0;
+    background-color: white;   
+}
+
+#next {
+    position: absolute;
+    top: 50%;
+    height: 20px;
+    right: 0;
+    background-color: white;   
+}
+
+/* Yhumbnails section */
+.thumbnails {
+    width: 100%;
+    height: 30%;
+    margin: auto;
+    display: flex;
+}
+.thumbnail-opacity {
+    opacity: 0.5;
+}
+
+.active-thumbnail {
+    opacity: 1;
+    border: 5px solid rgb(6, 177, 250);
+    transform: scale(125%);
+    z-index: 1;
+}
+
+/* Visible/hidden class for images */
+.visible {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
+
+.position-absolute {
+    position: absolute;
+    right: 0;
+    top: 40px;
+    color: white;
+    font-size: 20px;
+}
+
+.position-absolute-2 {
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+}
