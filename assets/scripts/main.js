@@ -26,10 +26,11 @@ const images = [
 
 // Images
 const imagesPaths = images.map(path => path.image);
-// Subtitles
-const textArray = images.map(paragraphText => paragraphText.text);
 // Titles
 const titleArray = images.map(titleText => titleText.title);
+// Subtitles
+const textArray = images.map(paragraphText => paragraphText.text);
+
 
 
 // Current element index
@@ -40,44 +41,6 @@ const container = document.querySelector('.container');
 const nextButton = document.getElementById('next');
 const prevButton = document.getElementById('prev');
 const thumbnailsContainer = document.querySelector('.thumbnails');
-
-/*
-// Titles
-for (let i = 0; i < titleArray.length; i++) {
-  
-    // Create image
-    const titleText = document.createElement('h1');
-    // Setting img source and adding class
-    titleText.innerHTML = titleArray[i];
-    titleText.classList.add("visible");
-    titleText.classList.add("position-absolute-2");
-
-    if (i !== currentImageIndex) {
-        titleText.classList.add("hidden");
-        titleText.classList.remove("visible");
-    }
-    // Output
-    container.appendChild(titleText);
-}
-
-// Subtitles
-for (let i = 0; i < textArray.length; i++) {
-  
-    // Create image
-    const paragraphText = document.createElement('h2');
-    // Setting img source and adding class
-    paragraphText.innerHTML = textArray[i];
-    paragraphText.classList.add("visible");
-    paragraphText.classList.add("position-absolute");
-
-    if (i !== currentImageIndex) {
-        paragraphText.classList.add("hidden");
-        paragraphText.classList.remove("visible");
-    }
-    // Output
-    container.appendChild(paragraphText);
-}
-*/
 
 // Images
 for (let i = 0; i < imagesPaths.length; i++) {
@@ -109,17 +72,54 @@ for (let i = 0; i < imagesPaths.length; i++) {
     thumbnailsContainer.appendChild(thumbnail);
 }
 
-prevButton.addEventListener('click', () => {
-    currentImageIndex = updateSlide(container, thumbnailsContainer, imagesPaths, currentImageIndex, -1);
-});
+// Titles
+for (let i = 0; i < titleArray.length; i++) {
+  
+    const titleText = document.createElement('h1');
+    // Setting img source and adding class
+    titleText.innerHTML = titleArray[i];
+    titleText.classList.add("visible");
+    titleText.classList.add("position-absolute-2");
 
+    if (i !== currentImageIndex) {
+        titleText.classList.add("hidden");
+        titleText.classList.remove("visible");
+    }
+    // Output
+    container.appendChild(titleText);
+}
+
+// Subtitles
+for (let i = 0; i < textArray.length; i++) {
+  
+    const paragraphText = document.createElement('h2');
+    // Setting img source and adding class
+    paragraphText.innerHTML = textArray[i];
+    paragraphText.classList.add("visible");
+    paragraphText.classList.add("position-absolute");
+
+    if (i !== currentImageIndex) {
+        paragraphText.classList.add("hidden");
+        paragraphText.classList.remove("visible");
+    }
+    // Output
+    container.appendChild(paragraphText);
+}
+
+
+
+// Indietro
+prevButton.addEventListener('click', () => {
+    currentImageIndex = updateSlide(container, thumbnailsContainer, imagesPaths, titleArray, textArray, currentImageIndex, -1);
+});
+// Avanti
 nextButton.addEventListener('click', () => {
-    currentImageIndex = updateSlide(container, thumbnailsContainer, imagesPaths, currentImageIndex, 1);
+    currentImageIndex = updateSlide(container, thumbnailsContainer, imagesPaths, titleArray, textArray, currentImageIndex, 1);
 });
 
 // Funzioni
 
-function updateSlide(container, thumbnailsContainer, imagesPaths, currentImageIndex, direction) {
+function updateSlide(container, thumbnailsContainer, imagesPaths, titleArray, textArray, currentImageIndex, direction) {
     container.children[currentImageIndex].classList.add("hidden");
     container.children[currentImageIndex].classList.remove("visible");
     thumbnailsContainer.children[currentImageIndex].classList.remove('active-thumbnail');
@@ -129,6 +129,11 @@ function updateSlide(container, thumbnailsContainer, imagesPaths, currentImageIn
     container.children[currentImageIndex].classList.remove("hidden");
     container.children[currentImageIndex].classList.add("visible");
     thumbnailsContainer.children[currentImageIndex].classList.add('active-thumbnail');
+
+    const elTitle = container.querySelector('h1');
+    const elText = container.querySelector('h2');
+    elTitle.innerHTML = titleArray[currentImageIndex];
+    elText.innerHTML = textArray[currentImageIndex];
 
     return currentImageIndex;
 }
