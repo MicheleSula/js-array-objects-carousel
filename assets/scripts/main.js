@@ -1,139 +1,105 @@
-// Array images
-// const images = ['img/01.webp', 'img/02.webp', 'img/03.webp', 'img/04.webp', 'img/05.webp'];
+
 const images = [
     {
         image: 'img/01.webp',
         title: 'Marvel\\s Spiderman Miles Morale',
-        text: 'Experience the rise of Miles Morales as the new hero masters incredible, explosive new powers to become his own Spider-Man.',
+        subTitle: 'Experience the rise of Miles Morales as the new hero masters incredible, explosive new powers to become his own Spider-Man.',
     }, {
         image: 'img/02.webp',
         title: 'Ratchet & Clank: Rift Apart',
-        text: 'Go dimension-hopping with Ratchet and Clank as they take on an evil emperor from another reality.',
+        subTitle: 'Go dimension-hopping with Ratchet and Clank as they take on an evil emperor from another reality.',
     }, {
         image: 'img/03.webp',
         title: 'Fortnite',
-        text: "Grab all of your friends and drop into Epic Games Fortnite, a massive 100 - player face - off that combines looting, crafting, shootouts and chaos.",
+        subTitle: "Grab all of your friends and drop into Epic Games Fortnite, a massive 100 - player face - off that combines looting, crafting, shootouts and chaos.",
     }, {
         image: 'img/04.webp',
         title: 'Stray',
-        text: 'Lost, injured and alone, a stray cat must untangle an ancient mystery to escape a long-forgotten city',
+        subTitle: 'Lost, injured and alone, a stray cat must untangle an ancient mystery to escape a long-forgotten city',
     }, {
         image: 'img/05.webp',
         title: "Marvel's Avengers",
-        text: 'Marvel\\s Avengers is an epic, third-person, action-adventure game that combines an original, cinematic story with single-player and co-operative gameplay.',
+        subTitle: 'Marvel\\s Avengers is an epic, third-person, action-adventure game that combines an original, cinematic story with single-player and co-operative gameplay.',
     }
 ];
 
-// Images
-const imagesPaths = images.map(path => path.image);
-// Titles
-const titleArray = images.map(titleText => titleText.title);
-// Subtitles
-const textArray = images.map(paragraphText => paragraphText.text);
-
-
-
-// Current element index
-let currentImageIndex = 0;
-
-// Containers and next/prev buttons
 const container = document.querySelector('.container');
 const nextButton = document.getElementById('next');
 const prevButton = document.getElementById('prev');
-const thumbnailsContainer = document.querySelector('.thumbnails');
+const thumbnailsContainer = document.querySelector('.thumbnails-container');
 
-// Images
-for (let i = 0; i < imagesPaths.length; i++) {
-  
-    // Create image
-    const img = document.createElement('img');
-    // Setting img source and adding class
-    img.src = imagesPaths[i];
-    img.classList.add("visible");
+let currentSlide = 0;
 
-    if (i !== currentImageIndex) {
-        img.classList.add("hidden");
-        img.classList.remove("visible");
-    }
-    // Output
-    container.appendChild(img);
+const updateSlide = () => {
+    // Check e update sulla slide
+    container.querySelectorAll('.slide').forEach((slide, index) => {
+        if (index === currentSlide) {
+            slide.style.display = 'block';
+        } else {
+            slide.style.display = 'none';
+        }
+    });
+    // Check e update sul thumbnail
+    thumbnailsContainer.querySelectorAll('.thumbnail').forEach((thumbnail, index) => {
+        if (index === currentSlide) {
+            thumbnail.classList.add('active');
+        } else {
+            thumbnail.classList.remove('active');
+        }
+    });
+};
 
-    
-    // Creating thumbnail img
-    const thumbnail = document.createElement('img');
-    // Setting img source and class
-    thumbnail.src = imagesPaths[i];
-    thumbnail.classList.add('thumbnail-opacity');
-
-    if (i === currentImageIndex) {
-        thumbnail.classList.add('active-thumbnail');
-    }
-    // Output
-    thumbnailsContainer.appendChild(thumbnail);
-}
-
-// Titles
-for (let i = 0; i < titleArray.length; i++) {
-  
-    const titleText = document.createElement('h1');
-    // Setting img source and adding class
-    titleText.innerHTML = titleArray[i];
-    titleText.classList.add("visible");
-    titleText.classList.add("position-absolute-2");
-
-    if (i !== currentImageIndex) {
-        titleText.classList.add("hidden");
-        titleText.classList.remove("visible");
-    }
-    // Output
-    container.appendChild(titleText);
-}
-
-// Subtitles
-for (let i = 0; i < textArray.length; i++) {
-  
-    const paragraphText = document.createElement('h2');
-    // Setting img source and adding class
-    paragraphText.innerHTML = textArray[i];
-    paragraphText.classList.add("visible");
-    paragraphText.classList.add("position-absolute");
-
-    if (i !== currentImageIndex) {
-        paragraphText.classList.add("hidden");
-        paragraphText.classList.remove("visible");
-    }
-    // Output
-    container.appendChild(paragraphText);
-}
-
-
-
-// Indietro
 prevButton.addEventListener('click', () => {
-    currentImageIndex = updateSlide(container, thumbnailsContainer, imagesPaths, titleArray, textArray, currentImageIndex, -1);
+    currentSlide -= 1;
+    if (currentSlide < 0) {
+        currentSlide = images.length - 1;
+    }
+    updateSlide();
 });
-// Avanti
+
 nextButton.addEventListener('click', () => {
-    currentImageIndex = updateSlide(container, thumbnailsContainer, imagesPaths, titleArray, textArray, currentImageIndex, 1);
+    currentSlide += 1;
+    if (currentSlide >= images.length) {
+        currentSlide = 0;
+    }
+    updateSlide();
 });
+
+images.forEach((image) => {
+    // Creazione dell'elemento slide
+    const slide = document.createElement('div');
+    slide.className = 'slide';
+
+    // Creazione dell'immagine
+    createElementFromArray('img', 'slide-img', null, image.image, slide);
+    // Creazione del titolo
+    createElementFromArray('h2', 'slide-title', image.title, null, slide);
+    // Creazione del sottotitolo
+    createElementFromArray('p', 'slide-subtitle', image.subTitle, null, slide);
+    
+
+    container.appendChild(slide);
+
+    const thumbnail = document.createElement('img');
+    thumbnail.className = 'thumbnail';
+    thumbnail.src = image.image;
+    thumbnailsContainer.appendChild(thumbnail);
+
+    thumbnail.addEventListener('click', () => {
+        currentSlide = images.indexOf(image);
+        updateSlide();
+    });
+});
+
+updateSlide();
+
 
 // Funzioni
 
-function updateSlide(container, thumbnailsContainer, imagesPaths, titleArray, textArray, currentImageIndex, direction) {
-    container.children[currentImageIndex].classList.add("hidden");
-    container.children[currentImageIndex].classList.remove("visible");
-    thumbnailsContainer.children[currentImageIndex].classList.remove('active-thumbnail');
-
-    currentImageIndex = (currentImageIndex + direction + imagesPaths.length) % imagesPaths.length;
-
-    container.children[currentImageIndex].classList.remove("hidden");
-    container.children[currentImageIndex].classList.add("visible");
-    thumbnailsContainer.children[currentImageIndex].classList.add('active-thumbnail');
-
-    const elTitle = container.querySelector('h1');
-    const elText = container.querySelector('h2');
-    elTitle.innerHTML = titleArray[currentImageIndex];
-    elText.innerHTML = textArray[currentImageIndex];
-
-    return currentImageIndex;
-}
+function createElementFromArray(tag, className, textContent, imageContent, parent) {
+    const element = document.createElement(tag);
+    element.className = className;
+    element.textContent = textContent;
+    element.src = imageContent;
+    parent.appendChild(element);
+  }

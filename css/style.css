@@ -5,20 +5,27 @@
     box-sizing: border-box;
 }
 
+
+header {
+    background-color: lightpink;
+    border-bottom: 2px groove salmon;
+}
+#page-title {
+    font-size: 60px;
+    color: white;
+    text-shadow: 2px 2px darkgray;
+    text-align: center;
+}
+
 main {
     height: 100vh;
     width: 100vw;
-    background-color: lightcyan;
+    background-color: rgba(253, 214, 220, 0.836);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-}
 /* Content wrapper */
 #content-wrapper {
     height: 80%;
@@ -28,14 +35,14 @@ img {
 
 /* Container of images and buttons */
 .container {
-    height: 70%;
+    height: 50%;
     width: 100%;
-    position: relative;
 }
 
 #prev {
     position: absolute;
-    top: 50%;
+    top: 25%;
+    transform: translate(0, -50%);
     height: 20px;
     left: 0;
     background-color: white;   
@@ -43,52 +50,59 @@ img {
 
 #next {
     position: absolute;
-    top: 50%;
+    top: 25%;
+    transform: translate(0, -50%);
     height: 20px;
     right: 0;
     background-color: white;   
 }
 
 /* Yhumbnails section */
-.thumbnails {
+.thumbnails-container {
     width: 100%;
     height: 30%;
-    margin: auto;
     display: flex;
 }
-.thumbnail-opacity {
-    opacity: 0.5;
+
+.thumbnail{
+    width: calc(100% / 5);
+    max-height: 100%;
+    object-fit: cover;
 }
 
-.active-thumbnail {
-    opacity: 1;
+.active {
     border: 5px solid rgb(6, 177, 250);
     transform: scale(125%);
     z-index: 1;
 }
 
-/* Visible/hidden class for images */
-.visible {
-    display: block;
+/* Javascript classes */
+
+.slide {
+    height: 100%;
+    width: 100%;
+    position: relative;
 }
 
-.hidden {
-    display: none;
+.slide-img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 }
 
-.position-absolute {
+.slide-title {
     position: absolute;
-    right: 0;
-    top: 40px;
-    color: white;
-    font-size: 20px;
-}
-
-.position-absolute-2 {
-    position: absolute;
-    right: 0;
+    right: 20px;
     top: 0;
     color: white;
     font-size: 30px;
     font-weight: bold;
+}
+
+.slide-subtitle {
+    position: absolute;
+    right: 20px;
+    top: 40px;
+    color: white;
+    font-size: 20px;
 }
